@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Bobr, Zeremie, Obserwacja
+from .models import Bobr, Zeremie, Obserwacja, GatunekDrzewa
 
 # Serializer do rejestracji użytkowników
 class RegisterSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-# Serializery dla naszych bobrów
+# Serializery dla naszych bubruw
 class BobrSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bobr
@@ -32,4 +32,9 @@ class ZeremieSerializer(serializers.ModelSerializer):
 class ObserwacjaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Obserwacja
+        fields = '__all__'
+
+class GatunekDrzewaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GatunekDrzewa
         fields = '__all__'

@@ -4,19 +4,18 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from .permissions import IsAdminOrReadOnly
 
-# Upewnij się, że kropka przed models i serializers jest!
-from .models import Bobr, Zeremie, GatunekDrzewa, Obserwacja
+
+from .models import Bobr, Zeremie, Obserwacja, GatunekDrzewa
 from .serializers import (
     BobrSerializer, 
     ZeremieSerializer, 
     ObserwacjaSerializer, 
+    GatunekDrzewaSerializer,
     UserRegisterSerializer
 )
 
-# ---------------------------------------------------------
-# TU ZACZYNAJĄ SIĘ WIDOKI - SPRAWDŹ CZY TO MASZ
-# ---------------------------------------------------------
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -27,6 +26,7 @@ class BobrViewSet(viewsets.ModelViewSet):
     queryset = Bobr.objects.all()
     serializer_class = BobrSerializer
     permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     @action(detail=False, methods=['get'])
     def grubaski(self, request):
@@ -34,11 +34,25 @@ class BobrViewSet(viewsets.ModelViewSet):
         grube_bobry = Bobr.objects.filter(waga__gte=min_waga)
         serializer = self.get_serializer(grube_bobry, many=True)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def statystyki(self, request):
+        liczba_bobrow = Bobr.objects.count()
+        liczba_zeremi = Zeremie.objects.count()
+        liczba_drzew = GatunekDrzewa.objects.count()
+        
+        return Response({
+            "liczba_bobrow": liczba_bobrow,
+            "liczba_zeremi": liczba_zeremi,
+            "liczba_gatunkow_drzew": liczba_drzew,
+            "info": "Statystyki wygenerowane pomyślnie"
+        })
 
 class ZeremieViewSet(viewsets.ModelViewSet):
     queryset = Zeremie.objects.all()
     serializer_class = ZeremieSerializer
     permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
 
     @action(detail=False, methods=['get'])
     def raport_remontowy(self, request):
@@ -46,13 +60,19 @@ class ZeremieViewSet(viewsets.ModelViewSet):
         return Response({
             "status": "Raport Inżynierski",
             "tamy_do_naprawy": do_remontu,
-            "komentarz": "Do roboty!" if do_remontu > 0 else "Luksus."
+            "komentarz": "Do roboty!" if do_remontu > 0 else "Tu jest jakby luksusowo."
         })
 
 class ObserwacjaViewSet(viewsets.ModelViewSet):
     queryset = Obserwacja.objects.all()
     serializer_class = ObserwacjaSerializer
     permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(autor=self.request.user)
+
+class GatunekDrzewaViewSet(viewsets.ModelViewSet):
+    queryset = GatunekDrzewa.objects.all()
+    serializer_class = GatunekDrzewaSerializer
+    permission_classes = [IsAdminOrReadOnly]

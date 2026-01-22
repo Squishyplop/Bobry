@@ -15,33 +15,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
-
-from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken.views import obtain_auth_token # Logowanie (daje token)
-from bobry.views import BobrViewSet, ZeremieViewSet, ObserwacjaViewSet, RegisterView # Import widoków
+from rest_framework.authtoken.views import obtain_auth_token
 
-# Router automatycznie tworzy ścieżki dla ViewSetów (CRUD)
+from bobry.views import (
+    BobrViewSet, 
+    ZeremieViewSet, 
+    ObserwacjaViewSet, 
+    GatunekDrzewaViewSet, 
+    RegisterView
+)
+
+# CRUD?
 router = DefaultRouter()
 router.register(r'bobry', BobrViewSet)
-router.register(r'zeremie', ZeremieViewSet)
+router.register(r'zeremia', ZeremieViewSet)
 router.register(r'obserwacje', ObserwacjaViewSet)
+router.register(r'drzewa', GatunekDrzewaViewSet) 
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Główne API (bobry, tamy, obserwacje)
+    # Główne API
     path('api/', include(router.urls)),
     
-    # Logowanie: wysyłasz login/hasło -> dostajesz token
+    # Login i hasło - token
     path('api-token-auth/', obtain_auth_token),
     
-    # Rejestracja: wysyłasz login/hasło/email -> tworzy konto
-    path('register/', RegisterView.as_view(), name='auth_register'),
+    # login, hasło, email - konto
+    path('api/register/', RegisterView.as_view(), name='auth_register'),
 ]

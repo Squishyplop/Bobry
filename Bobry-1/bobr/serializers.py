@@ -2,22 +2,29 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Bobr, Zeremie, GatunekDrzewa, Obserwacja
 from datetime import date
+from django.core.exceptions import ValidationError as DjangoValidationError
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
+# Serializer do rejestracji
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = ['username', 'password', 'email']
-    
+        fields = ('username', 'password', 'email')
+
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
-            password=validated_data['password'],
-            email=validated_data.get('email', '')
+            email=validated_data.get('email'),
+            password=validated_data['password']
         )
         return user
 
+
+# Modele
 class GatunekDrzewaSerializer(serializers.ModelSerializer):
     class Meta:
         model = GatunekDrzewa
@@ -37,14 +44,14 @@ class BobrSerializer(serializers.ModelSerializer):
         return 0
 
     def validate_imie(self, value):
-        zakazane_slowa = ["Siusiak", "Głupek", "Admin"]
+        zakazane_slowa = ["Debil", "Głupek", "Admin", "NienawidzeBobrow"]
         if value in zakazane_slowa:
             raise serializers.ValidationError(f"Imię '{value}' jest obraźliwe lub zastrzeżone!")
         return value
 
     def validate(self, data):
         if data['data_urodzenia'] == date.today() and data['waga'] > 5:
-            raise serializers.ValidationError("Noworodek bobra nie może ważyć więcej niż 5 kg!")
+            raise serializers.ValidationError("Mały bubr nie może ważyć więcej niż 5 kg!")
         return data
 
 class ZeremieSerializer(serializers.ModelSerializer):
