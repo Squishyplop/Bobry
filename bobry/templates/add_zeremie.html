@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Dodaj żeremie</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div>
+            <label for="lokalizacja">Lokalizacja:</label><br>
+            <input
+                    id="lokalizacja"
+                    name="lokalizacja"
+                    placeholder="Np. Dolina Baryczy"
+                    required
+            >
+        </div>
+
+        <br>
+
+        <div>
+            <label for="budowniczy">Bóbr budowniczy:</label><br>
+            <select id="budowniczy" name="budowniczy" required>
+                {% for bobr in bobry %}
+                    <option value="{{ bobr.id }}">
+                        {{ bobr.imie }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="gatunek_drzewa">Gatunek drzewa:</label><br>
+            <select id="gatunek_drzewa" name="gatunek_drzewa" required>
+                {% for drzewo in drzewa %}
+                    <option value="{{ drzewo.id }}">
+                        {{ drzewo.nazwa }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <label>
+                <input type="checkbox" name="czy_wymaga_remontu">
+                Wymaga remontu
+            </label>
+        </div>
+
+        <br>
+
+        <button type="submit">Dodaj żeremie</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,156 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+}
+
+/* BASE */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+/* NAVBAR */
+nav {
+    background: linear-gradient(90deg, #020617, #020617);
+    padding: 14px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #1e293b;
+}
+
+nav a {
+    color: #e5e7eb;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #38bdf8;
+}
+
+nav span {
+    margin-left: auto;
+    color: #94a3b8;
+}
+
+/* LAYOUT */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* CARD */
+.card {
+    background: #020617;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+    border: 1px solid #1e293b;
+}
+
+/* HEADERS */
+h1, h2 {
+    margin-top: 0;
+    color: #f8fafc;
+}
+
+/* FORMS */
+form {
+    background: #020617;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #020617;
+    color: #e5e7eb;
+    font-size: 14px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #64748b;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #38bdf8;
+}
+
+/* BUTTONS */
+button {
+    background: linear-gradient(90deg, #0284c7, #0ea5e9);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* MESSAGES */
+.message {
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.message.success {
+    background: #022c22;
+    color: #6ee7b7;
+    border: 1px solid #064e3b;
+}
+
+.message.error {
+    background: #2e0b0b;
+    color: #fca5a5;
+    border: 1px solid #7f1d1d;
+}
+
+/* FEED */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.post-content {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* TABLE (ADMIN) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #1e293b;
+}
+
+th {
+    text-align: left;
+    color: #cbd5f5;
+}

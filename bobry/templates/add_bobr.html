@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Dodaj bobra</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div><input name="imie" placeholder="Imię"></div>
+        <div><input name="waga" placeholder="Waga (kg)"></div>
+        <div><input type="date" name="data_urodzenia"></div>
+        <button>Dodaj</button>
+    </form>
+{% endblock %}

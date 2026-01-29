@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>📰 Najnowsza aktywność</h1>
+
+{% if activities %}
+    {% for activity in activities %}
+        <div class="feed-card">
+
+            {% if activity.activity_type == "BOBR" %}
+                <div class="feed-header">
+                    <strong>{{ activity.user.username }}</strong>
+                    🦫 dodał bobra
+                </div>
+
+                <div class="feed-body">
+                    <p>Imię: {{ activity.bobr.imie }}</p>
+                    <p>Waga: {{ activity.bobr.waga }} kg</p>
+                </div>
+
+            {% elif activity.activity_type == "OBS" %}
+                <div class="feed-header">
+                    <strong>{{ activity.user.username }}</strong>
+                    👀 dodał obserwację
+                </div>
+
+                <div class="feed-body">
+                    <p>{{ activity.obserwacja.opis }}</p>
+                </div>
+
+            {% elif activity.activity_type == "ZER" %}
+                <div class="feed-header">
+                    <strong>{{ activity.user.username }}</strong>
+                    🏗️ zbudował żeremie
+                </div>
+
+                <div class="feed-body">
+                    <p>Lokalizacja: {{ activity.user.bobr_set.first.zeremia.last.lokalizacja }}</p>
+                </div>
+            {% endif %}
+
+            <div class="feed-footer">
+                {{ activity.created_at|date:"Y-m-d H:i" }}
+            </div>
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Brak aktywności</p>
+{% endif %}
+
+{% endblock %}
